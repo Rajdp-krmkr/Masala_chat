@@ -38,7 +38,6 @@ export default function Home() {
 }
 
 const SignIn = () => {
-  const toast = useToast();
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
