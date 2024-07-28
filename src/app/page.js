@@ -11,7 +11,6 @@ import {
 import { getFirestore } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import ChatRoom from "../components/ChatRoom.js";
-import { useToast } from "@/components/ui/use-toast.js";
 
 import { auth } from "@/lib/firebaseConfig.js";
 import { db } from "@/lib/firebaseConfig.js";
