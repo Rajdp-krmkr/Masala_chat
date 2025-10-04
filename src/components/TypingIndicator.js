@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Animated } from 'react-native';
+import { View, Text, Animated } from 'react-native';
 
 const TypingIndicator = ({ phoneNumber }) => {
   const dot1 = useRef(new Animated.Value(0)).current;
@@ -56,59 +56,23 @@ const TypingIndicator = ({ phoneNumber }) => {
   });
 
   return (
-    <View style={styles.container}>
-      <View style={styles.bubble}>
-        <Text style={styles.typingText}>typing</Text>
-        <View style={styles.dotsContainer}>
-          <Animated.View style={[styles.dot, getDotStyle(dot1)]} />
-          <Animated.View style={[styles.dot, getDotStyle(dot2)]} />
-          <Animated.View style={[styles.dot, getDotStyle(dot3)]} />
+    <View className="px-4 py-1 items-start">
+      <View className="bg-white px-4 py-3 rounded-2xl rounded-bl-sm flex-row items-center shadow-sm">
+        <Text className="text-gray-500 text-sm italic mr-2">typing</Text>
+        <View className="flex-row items-center">
+          <Animated.View 
+            style={[{ width: 6, height: 6, borderRadius: 3, backgroundColor: '#667eea', marginHorizontal: 1 }, getDotStyle(dot1)]} 
+          />
+          <Animated.View 
+            style={[{ width: 6, height: 6, borderRadius: 3, backgroundColor: '#667eea', marginHorizontal: 1 }, getDotStyle(dot2)]} 
+          />
+          <Animated.View 
+            style={[{ width: 6, height: 6, borderRadius: 3, backgroundColor: '#667eea', marginHorizontal: 1 }, getDotStyle(dot3)]} 
+          />
         </View>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 15,
-    paddingVertical: 5,
-    alignItems: 'flex-start',
-  },
-  bubble: {
-    backgroundColor: 'white',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 18,
-    borderBottomLeftRadius: 4,
-    flexDirection: 'row',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  typingText: {
-    color: '#666',
-    fontSize: 14,
-    fontStyle: 'italic',
-    marginRight: 8,
-  },
-  dotsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: '#667eea',
-    marginHorizontal: 1,
-  },
-});
 
 export default TypingIndicator;

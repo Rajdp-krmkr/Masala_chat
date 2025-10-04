@@ -4,17 +4,13 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Alert,
   KeyboardAvoidingView,
   Platform,
-  Dimensions,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useChat } from '../context/ChatContext';
-
-const { width, height } = Dimensions.get('window');
 
 const AuthScreen = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -42,35 +38,35 @@ const AuthScreen = ({ navigation }) => {
   return (
     <LinearGradient
       colors={['#667eea', '#764ba2']}
-      style={styles.container}
+      className="flex-1"
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardView}
+        className="flex-1"
       >
-        <View style={styles.content}>
+        <View className="flex-1 justify-center items-center px-8">
           {/* Header */}
-          <View style={styles.header}>
-            <View style={styles.iconContainer}>
+          <View className="items-center mb-12">
+            <View className="w-24 h-24 rounded-full bg-white/20 justify-center items-center mb-5">
               <Ionicons name="chatbubbles" size={60} color="white" />
             </View>
-            <Text style={styles.title}>Phone Chat</Text>
-            <Text style={styles.subtitle}>
+            <Text className="text-3xl font-bold text-white mb-2">Phone Chat</Text>
+            <Text className="text-base text-white/80 text-center leading-6">
               Connect with friends using just your phone number
             </Text>
           </View>
 
           {/* Input Section */}
-          <View style={styles.inputSection}>
-            <View style={styles.inputContainer}>
+          <View className="w-full mb-10">
+            <View className="flex-row items-center bg-white rounded-3xl px-5 py-4 mb-5 shadow-lg">
               <Ionicons 
                 name="call-outline" 
                 size={20} 
                 color="#667eea" 
-                style={styles.inputIcon}
+                className="mr-3"
               />
               <TextInput
-                style={styles.input}
+                className="flex-1 text-base text-gray-800"
                 placeholder="+1 (555) 123-4567"
                 placeholderTextColor="#999"
                 value={phoneNumber}
@@ -83,11 +79,11 @@ const AuthScreen = ({ navigation }) => {
             </View>
 
             <TouchableOpacity
-              style={[styles.button, loading && styles.buttonDisabled]}
+              className={`bg-white/20 rounded-3xl py-4 px-8 flex-row items-center justify-center border-2 border-white/30 ${loading ? 'opacity-60' : ''}`}
               onPress={handleAuthenticate}
               disabled={loading}
             >
-              <Text style={styles.buttonText}>
+              <Text className="text-white text-base font-semibold mr-3">
                 {loading ? 'Connecting...' : 'Start Chatting'}
               </Text>
               {!loading && (
@@ -97,15 +93,15 @@ const AuthScreen = ({ navigation }) => {
           </View>
 
           {/* Demo Info */}
-          <View style={styles.demoInfo}>
-            <Text style={styles.demoTitle}>Demo Mode</Text>
-            <Text style={styles.demoText}>
+          <View className="bg-white/10 rounded-2xl p-5 w-full items-center">
+            <Text className="text-white text-lg font-semibold mb-3">Demo Mode</Text>
+            <Text className="text-white/80 text-sm text-center mb-4 leading-5">
               Enter any phone number to try the app with demo users
             </Text>
-            <View style={styles.demoUsers}>
-              <Text style={styles.demoUserText}>• +1-555-0101 (Online)</Text>
-              <Text style={styles.demoUserText}>• +1-555-0102 (Offline)</Text>
-              <Text style={styles.demoUserText}>• +1-555-0103 (Online)</Text>
+            <View className="items-start">
+              <Text className="text-white/90 text-xs mb-1">• +1-555-0101 (Online)</Text>
+              <Text className="text-white/90 text-xs mb-1">• +1-555-0102 (Offline)</Text>
+              <Text className="text-white/90 text-xs mb-1">• +1-555-0103 (Online)</Text>
             </View>
           </View>
         </View>
@@ -113,122 +109,5 @@ const AuthScreen = ({ navigation }) => {
     </LinearGradient>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  keyboardView: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 30,
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 50,
-  },
-  iconContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: 'rgba(255, 255, 255, 0.8)',
-    textAlign: 'center',
-    lineHeight: 22,
-  },
-  inputSection: {
-    width: '100%',
-    marginBottom: 40,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 25,
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  inputIcon: {
-    marginRight: 10,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    color: '#333',
-  },
-  button: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 25,
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-    marginRight: 10,
-  },
-  demoInfo: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 15,
-    padding: 20,
-    width: '100%',
-    alignItems: 'center',
-  },
-  demoTitle: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 10,
-  },
-  demoText: {
-    color: 'rgba(255, 255, 255, 0.8)',
-    fontSize: 14,
-    textAlign: 'center',
-    marginBottom: 15,
-    lineHeight: 20,
-  },
-  demoUsers: {
-    alignItems: 'flex-start',
-  },
-  demoUserText: {
-    color: 'rgba(255, 255, 255, 0.9)',
-    fontSize: 12,
-    marginBottom: 5,
-  },
-});
 
 export default AuthScreen;

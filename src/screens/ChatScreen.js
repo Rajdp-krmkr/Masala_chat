@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   View,
-  StyleSheet,
   SafeAreaView,
 } from 'react-native';
 import { useChat } from '../context/ChatContext';
@@ -21,8 +20,8 @@ const ChatScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
+    <SafeAreaView className="flex-1 bg-gray-50">
+      <View className="flex-1">
         {!selectedUser ? (
           <UserList 
             onUserSelect={handleUserSelect}
@@ -39,15 +38,5 @@ const ChatScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8f9fa',
-  },
-  content: {
-    flex: 1,
-  },
-});
 
 export default ChatScreen;

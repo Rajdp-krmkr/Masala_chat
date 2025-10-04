@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const MessageBubble = ({ 
@@ -17,60 +17,35 @@ const MessageBubble = ({
     });
   };
 
-  const getBubbleStyle = () => {
-    const baseStyle = {
-      maxWidth: '80%',
-      marginVertical: 2,
-      marginHorizontal: 15,
-    };
-
+  const getBubbleClasses = () => {
+    const baseClasses = "max-w-4/5 my-1 mx-4";
+    
     if (isCurrentUser) {
-      return {
-        ...baseStyle,
-        alignSelf: 'flex-end',
-        marginLeft: '20%',
-      };
+      return `${baseClasses} self-end ml-1/5`;
     } else {
-      return {
-        ...baseStyle,
-        alignSelf: 'flex-start',
-        marginRight: '20%',
-      };
+      return `${baseClasses} self-start mr-1/5`;
     }
   };
 
-  const getMessageBubbleRadius = () => {
-    const radius = 18;
-    const smallRadius = 4;
-
+  const getBubbleRadiusClasses = () => {
     if (isCurrentUser) {
-      return {
-        borderTopLeftRadius: radius,
-        borderTopRightRadius: radius,
-        borderBottomLeftRadius: radius,
-        borderBottomRightRadius: isNextMessageFromSameUser ? smallRadius : radius,
-      };
+      return `rounded-2xl ${isNextMessageFromSameUser ? 'rounded-br-sm' : ''}`;
     } else {
-      return {
-        borderTopLeftRadius: radius,
-        borderTopRightRadius: radius,
-        borderBottomLeftRadius: isNextMessageFromSameUser ? smallRadius : radius,
-        borderBottomRightRadius: radius,
-      };
+      return `rounded-2xl ${isNextMessageFromSameUser ? 'rounded-bl-sm' : ''}`;
     }
   };
 
   if (isCurrentUser) {
     return (
-      <View style={getBubbleStyle()}>
+      <View className={getBubbleClasses()}>
         <LinearGradient
           colors={['#667eea', '#764ba2']}
-          style={[styles.messageBubble, getMessageBubbleRadius()]}
+          className={`px-4 py-3 shadow-sm ${getBubbleRadiusClasses()}`}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         >
-          <Text style={styles.messageTextSent}>{message.message}</Text>
-          <Text style={styles.messageTimeSent}>
+          <Text className="text-white text-base leading-5">{message.message}</Text>
+          <Text className="text-white/70 text-xs mt-1 self-end">
             {formatTime(message.timestamp)}
           </Text>
         </LinearGradient>
@@ -79,65 +54,15 @@ const MessageBubble = ({
   }
 
   return (
-    <View style={getBubbleStyle()}>
-      <View style={[styles.messageBubbleReceived, getMessageBubbleRadius()]}>
-        <Text style={styles.messageTextReceived}>{message.message}</Text>
-        <Text style={styles.messageTimeReceived}>
+    <View className={getBubbleClasses()}>
+      <View className={`bg-white px-4 py-3 shadow-sm ${getBubbleRadiusClasses()}`}>
+        <Text className="text-gray-800 text-base leading-5">{message.message}</Text>
+        <Text className="text-gray-500 text-xs mt-1 self-end">
           {formatTime(message.timestamp)}
         </Text>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  messageBubble: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  messageBubbleReceived: {
-    backgroundColor: 'white',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  messageTextSent: {
-    color: 'white',
-    fontSize: 16,
-    lineHeight: 20,
-  },
-  messageTextReceived: {
-    color: '#333',
-    fontSize: 16,
-    lineHeight: 20,
-  },
-  messageTimeSent: {
-    color: 'rgba(255, 255, 255, 0.7)',
-    fontSize: 11,
-    marginTop: 4,
-    alignSelf: 'flex-end',
-  },
-  messageTimeReceived: {
-    color: '#666',
-    fontSize: 11,
-    marginTop: 4,
-    alignSelf: 'flex-end',
-  },
-});
 
 export default MessageBubble;

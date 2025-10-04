@@ -4,7 +4,6 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  StyleSheet,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -39,38 +38,38 @@ const UserList = ({ onUserSelect, currentUser }) => {
     
     return (
       <TouchableOpacity
-        style={styles.userItem}
+        className="bg-white px-5 py-4"
         onPress={() => onUserSelect(item)}
       >
-        <View style={styles.userInfo}>
+        <View className="flex-row items-center">
           <UserAvatar phoneNumber={item.phoneNumber} size={50} />
           
-          <View style={styles.userDetails}>
-            <View style={styles.userHeader}>
-              <Text style={styles.userName}>{item.phoneNumber}</Text>
+          <View className="flex-1 ml-3">
+            <View className="flex-row justify-between items-center mb-1">
+              <Text className="text-base font-semibold text-gray-800 flex-1">{item.phoneNumber}</Text>
               {lastMessage && (
-                <Text style={styles.messageTime}>
+                <Text className="text-xs text-gray-500">
                   {formatTime(lastMessage.timestamp)}
                 </Text>
               )}
             </View>
             
-            <View style={styles.statusContainer}>
+            <View className="flex-row items-center">
               {lastMessage ? (
-                <Text style={styles.lastMessage} numberOfLines={1}>
+                <Text className="text-sm text-gray-500 flex-1" numberOfLines={1}>
                   {lastMessage.sender === currentUser.phoneNumber ? 'You: ' : ''}
                   {lastMessage.message}
                 </Text>
               ) : (
-                <Text style={styles.statusText}>
+                <Text className="text-sm text-gray-500">
                   {isOnline ? 'Online' : 'Last seen recently'}
                 </Text>
               )}
             </View>
           </View>
           
-          <View style={styles.userActions}>
-            {isOnline && <View style={styles.onlineIndicator} />}
+          <View className="flex-row items-center">
+            {isOnline && <View className="w-2 h-2 rounded-full bg-green-500 mr-2" />}
             <Ionicons name="chevron-forward" size={20} color="#ccc" />
           </View>
         </View>
@@ -79,22 +78,22 @@ const UserList = ({ onUserSelect, currentUser }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-white">
       {/* Header */}
       <LinearGradient
         colors={['#667eea', '#764ba2']}
-        style={styles.header}
+        className="pt-3 pb-5 px-5"
       >
-        <View style={styles.headerContent}>
-          <View style={styles.headerLeft}>
+        <View className="flex-row items-center justify-between">
+          <View className="flex-row items-center flex-1">
             <UserAvatar phoneNumber={currentUser.phoneNumber} size={40} />
-            <View style={styles.currentUserInfo}>
-              <Text style={styles.headerTitle}>Phone Chat</Text>
-              <Text style={styles.headerSubtitle}>{currentUser.phoneNumber}</Text>
+            <View className="ml-3 flex-1">
+              <Text className="text-white text-lg font-semibold">Phone Chat</Text>
+              <Text className="text-white/80 text-xs mt-1">{currentUser.phoneNumber}</Text>
             </View>
           </View>
-          <View style={styles.headerRight}>
-            <TouchableOpacity style={styles.headerButton}>
+          <View className="flex-row">
+            <TouchableOpacity className="p-2">
               <Ionicons name="search" size={24} color="white" />
             </TouchableOpacity>
           </View>
@@ -106,17 +105,17 @@ const UserList = ({ onUserSelect, currentUser }) => {
         data={users}
         renderItem={renderUser}
         keyExtractor={(item) => item.id}
-        style={styles.userList}
+        className="flex-1"
         showsVerticalScrollIndicator={false}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ItemSeparatorComponent={() => <View className="h-px bg-gray-100 ml-20" />}
       />
 
       {/* Empty State */}
       {users.length === 0 && (
-        <View style={styles.emptyState}>
+        <View className="flex-1 justify-center items-center px-10">
           <Ionicons name="people-outline" size={60} color="#ccc" />
-          <Text style={styles.emptyTitle}>No users available</Text>
-          <Text style={styles.emptySubtitle}>
+          <Text className="text-lg font-semibold text-gray-500 mt-5 mb-2">No users available</Text>
+          <Text className="text-sm text-gray-400 text-center leading-5">
             Demo users will appear here automatically
           </Text>
         </View>
@@ -124,127 +123,5 @@ const UserList = ({ onUserSelect, currentUser }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  header: {
-    paddingTop: 10,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-  },
-  headerContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  currentUserInfo: {
-    marginLeft: 12,
-    flex: 1,
-  },
-  headerTitle: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  headerSubtitle: {
-    color: 'rgba(255, 255, 255, 0.8)',
-    fontSize: 12,
-    marginTop: 2,
-  },
-  headerRight: {
-    flexDirection: 'row',
-  },
-  headerButton: {
-    padding: 8,
-  },
-  userList: {
-    flex: 1,
-  },
-  userItem: {
-    backgroundColor: 'white',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-  },
-  userInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  userDetails: {
-    flex: 1,
-    marginLeft: 12,
-  },
-  userHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  userName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-    flex: 1,
-  },
-  messageTime: {
-    fontSize: 12,
-    color: '#666',
-  },
-  statusContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  statusText: {
-    fontSize: 14,
-    color: '#666',
-  },
-  lastMessage: {
-    fontSize: 14,
-    color: '#666',
-    flex: 1,
-  },
-  userActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  onlineIndicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#4caf50',
-    marginRight: 8,
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#f0f0f0',
-    marginLeft: 82,
-  },
-  emptyState: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 40,
-  },
-  emptyTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#666',
-    marginTop: 20,
-    marginBottom: 8,
-  },
-  emptySubtitle: {
-    fontSize: 14,
-    color: '#999',
-    textAlign: 'center',
-    lineHeight: 20,
-  },
-});
 
 export default UserList;

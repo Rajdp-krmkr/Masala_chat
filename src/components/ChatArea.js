@@ -5,7 +5,6 @@ import {
   FlatList,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   KeyboardAvoidingView,
   Platform,
   Alert,
@@ -118,15 +117,15 @@ const ChatArea = ({ selectedUser, onBack, currentUser }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-gray-50">
       {/* Header */}
       <LinearGradient
         colors={['#667eea', '#764ba2']}
-        style={styles.header}
+        className="pt-3 pb-4 px-4"
       >
-        <View style={styles.headerContent}>
+        <View className="flex-row items-center">
           <TouchableOpacity 
-            style={styles.backButton}
+            className="p-1 mr-3"
             onPress={onBack}
           >
             <Ionicons name="arrow-back" size={24} color="white" />
@@ -134,18 +133,18 @@ const ChatArea = ({ selectedUser, onBack, currentUser }) => {
           
           <UserAvatar phoneNumber={selectedUser.phoneNumber} size={40} />
           
-          <View style={styles.userInfo}>
-            <Text style={styles.userName}>{selectedUser.phoneNumber}</Text>
-            <Text style={styles.userStatus}>
+          <View className="flex-1 ml-3">
+            <Text className="text-white text-base font-semibold">{selectedUser.phoneNumber}</Text>
+            <Text className="text-white/80 text-xs mt-1">
               {isUserTyping ? 'typing...' : isOnline ? 'Online' : `Last seen ${formatTime(new Date())}`}
             </Text>
           </View>
           
-          <View style={styles.headerActions}>
-            <TouchableOpacity style={styles.headerButton}>
+          <View className="flex-row">
+            <TouchableOpacity className="p-2 ml-1">
               <Ionicons name="call" size={20} color="white" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.headerButton}>
+            <TouchableOpacity className="p-2 ml-1">
               <Ionicons name="videocam" size={20} color="white" />
             </TouchableOpacity>
           </View>
@@ -154,7 +153,7 @@ const ChatArea = ({ selectedUser, onBack, currentUser }) => {
 
       {/* Messages */}
       <KeyboardAvoidingView 
-        style={styles.chatContainer}
+        className="flex-1"
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={0}
       >
@@ -163,8 +162,8 @@ const ChatArea = ({ selectedUser, onBack, currentUser }) => {
           data={userMessages}
           renderItem={renderMessage}
           keyExtractor={(item) => item.id}
-          style={styles.messagesList}
-          contentContainerStyle={styles.messagesContent}
+          className="flex-1"
+          contentContainerStyle={{ paddingVertical: 10 }}
           showsVerticalScrollIndicator={false}
           onContentSizeChange={() => {
             flatListRef.current?.scrollToEnd({ animated: true });
@@ -177,10 +176,10 @@ const ChatArea = ({ selectedUser, onBack, currentUser }) => {
         )}
 
         {/* Input Area */}
-        <View style={styles.inputContainer}>
-          <View style={styles.inputWrapper}>
+        <View className="bg-white px-4 py-3 border-t border-gray-200">
+          <View className="flex-row items-end bg-gray-100 rounded-3xl px-4 py-2">
             <TextInput
-              style={styles.textInput}
+              className="flex-1 text-base text-gray-800 py-2 max-h-24"
               placeholder="Type a message..."
               placeholderTextColor="#999"
               value={messageText}
@@ -193,10 +192,9 @@ const ChatArea = ({ selectedUser, onBack, currentUser }) => {
             />
             
             <TouchableOpacity
-              style={[
-                styles.sendButton,
-                messageText.trim() ? styles.sendButtonActive : styles.sendButtonInactive
-              ]}
+              className={`w-9 h-9 rounded-full justify-center items-center ml-2 ${
+                messageText.trim() ? 'bg-primary-500' : 'bg-transparent'
+              }`}
               onPress={handleSendMessage}
               disabled={!messageText.trim()}
             >
@@ -212,91 +210,5 @@ const ChatArea = ({ selectedUser, onBack, currentUser }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8f9fa',
-  },
-  header: {
-    paddingTop: 10,
-    paddingBottom: 15,
-    paddingHorizontal: 15,
-  },
-  headerContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  backButton: {
-    padding: 5,
-    marginRight: 10,
-  },
-  userInfo: {
-    flex: 1,
-    marginLeft: 12,
-  },
-  userName: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  userStatus: {
-    color: 'rgba(255, 255, 255, 0.8)',
-    fontSize: 12,
-    marginTop: 2,
-  },
-  headerActions: {
-    flexDirection: 'row',
-  },
-  headerButton: {
-    padding: 8,
-    marginLeft: 5,
-  },
-  chatContainer: {
-    flex: 1,
-  },
-  messagesList: {
-    flex: 1,
-  },
-  messagesContent: {
-    paddingVertical: 10,
-  },
-  inputContainer: {
-    backgroundColor: 'white',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
-  },
-  inputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    backgroundColor: '#f5f5f5',
-    borderRadius: 25,
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-  },
-  textInput: {
-    flex: 1,
-    fontSize: 16,
-    color: '#333',
-    maxHeight: 100,
-    paddingVertical: 8,
-  },
-  sendButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 8,
-  },
-  sendButtonActive: {
-    backgroundColor: '#667eea',
-  },
-  sendButtonInactive: {
-    backgroundColor: 'transparent',
-  },
-});
 
 export default ChatArea;

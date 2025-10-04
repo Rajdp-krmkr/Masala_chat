@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const UserAvatar = ({ phoneNumber, size = 40 }) => {
@@ -33,39 +33,21 @@ const UserAvatar = ({ phoneNumber, size = 40 }) => {
   return (
     <LinearGradient
       colors={gradientColors}
-      style={[
-        styles.avatar,
-        {
-          width: size,
-          height: size,
-          borderRadius: size / 2,
-        },
-      ]}
+      style={{
+        width: size,
+        height: size,
+        borderRadius: size / 2,
+      }}
+      className="justify-center items-center shadow-md"
     >
-      <Text style={[styles.avatarText, { fontSize: size * 0.35 }]}>
+      <Text 
+        style={{ fontSize: size * 0.35 }}
+        className="text-white font-bold"
+      >
         {avatarText}
       </Text>
     </LinearGradient>
   );
 };
-
-const styles = StyleSheet.create({
-  avatar: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  avatarText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-});
 
 export default UserAvatar;
